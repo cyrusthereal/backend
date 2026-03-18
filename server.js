@@ -35,10 +35,13 @@ const server = http.createServer((req, res) => {
     req.on("end", () => {
       try {
         const data = JSON.parse(body);
-        const sql = `INSERT INTO students (Name, Birthday, Address, Email, Viber, Course, Year_Graduated)
-                     VALUES (?, ?, ?, ?, ?, ?, ?)`;
+        const sql = `INSERT INTO students (Name, fName, LName, StudentNumber, Birthday, Address, Email, Viber, Course, Year_Graduated)
+                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
         const values = [
           data.Name,
+          data.fName,
+          data.LName,
+          data.StudentNumber,
           data.Birthday,
           data.Address,
           data.Email,
