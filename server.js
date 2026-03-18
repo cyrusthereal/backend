@@ -35,12 +35,16 @@ const server = http.createServer((req, res) => {
     req.on("end", () => {
       try {
         const data = JSON.parse(body);
-        const sql = `INSERT INTO students (Name, fName, LName, StudentNumber, Birthday, Address, Email, Viber, Course, Year_Graduated)
-                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+        // Parse the full name into first and last name
+        const nameParts = data.Name ? data.Name.trim().split(/\s+/) : [];
+        const firstName = nameParts[0] || data.fName || '';
+        const lastName = nameParts.slice(1).join(' ') || data.LName || '';
+        
+        const sql = `INSERT INTO students (first_Name, last_Name, StudentNumber, Birthday, Address, Email, Viber, Course, Year_Graduated)
+                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
         const values = [
-          data.Name,
-          data.fName,
-          data.LName,
+          firstName,
+          lastName,
           data.StudentNumber,
           data.Birthday,
           data.Address,
